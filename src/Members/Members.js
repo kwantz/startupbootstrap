@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 
 export default class Members extends React.Component {
   state = {
@@ -27,31 +27,31 @@ export default class Members extends React.Component {
   }
 
   async componentDidMount() {
-    // await this.fetchCpBook3();
-    // await this.fetchProblemDetail();
+    await this.fetchCpBook3();
+    await this.fetchProblemDetail();
 
     await this.getUserInfo('yabel_aurelius');
 
-    // await this.fetchUserSubmissions(1032903);
-    // await this.fetchCodeforcesRating('yabel_aurelius');
+    await this.fetchUserSubmissions(1032903);
+    await this.fetchCodeforcesRating('yabel_aurelius');
 
-    // await this.setupSubmission();
-    // await this.setupRatingChart();
+    await this.setupSubmission();
+    await this.setupRatingChart();
     // await this.setupProfileChart();
   }
 
   getUserInfo = async (uname) => {
-    let response = await fetch(`https://codeforces.com/api/user.info?handles=${uname}`)
-    let user = await response.json()
+    let api = await fetch(`https://codeforces.com/api/user.info?handles=${uname}`)
+    let response = await api.json()
+    let user = response.result[0]
     let state = {
       user: {
         handle: user.handle,
         rank: user.rank,
         lastOnline: user.lastOnlineTimeSeconds * 1000,
-        avatar: "https:" + user.avatar
+        avatar: "https:" + user.titlePhoto
       }
     }
-
     this.setState(state)
   }
 
@@ -240,118 +240,118 @@ export default class Members extends React.Component {
     ));
 
     return (
-<div className="row">
-            <div className="col-md-10 offset-md-1 mt-3">
-              <div className="card">
-                <div className="card-body">
+      <div className="row">
+        <div className="col-md-10 offset-md-1 mt-3">
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-3">
+                  <img src={this.state.user.avatar} style={{ maxWidth: '100%' }} />
+
+                </div>
+
+                <div className="col-md-9">
                   <div className="row">
-                    <div className="col-md-3">
-                      <img src={this.state.user.avatar} style={{ maxWidth: '100%' }} />
-
-                    </div>
-
-                    <div className="col-md-9">
-                      <div className="row">
-                        <div className="col-md-6">
-                          <p className="mb-0"><b>NIM: </b> 15.111.0001</p>
-                          <p className="mb-0"><b>Nama: </b> Anthony Ricardo Thiotanry</p>
-                          <p className="mb-0"><b>Program Studi: </b> Teknik Informatika</p>
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col-md-6" >
-                          <canvas id="myRating" />
-                        </div>
-                        <div className="col-md-6">
-    <h6>{this.state.user.rank[0].toUpperCase() + this.state.user.rank.slice(1)}</h6>
-                          <h3 className="mb-4">{this.state.user.handle}</h3>
-                          <p className="mb-0"><b>Problem(s) solved: </b> 100</p>
-    <p className="mb-0"><b>Last submissions: </b> {(new Date(this.state.user.lastOnline)).toDateString()}</p>
-                        </div>
-                      </div>
+                    <div className="col-md-6">
+                      <p className="mb-0"><b>NIM: </b> 15.111.0001</p>
+                      <p className="mb-0"><b>Nama: </b> Anthony Ricardo Thiotanry</p>
+                      <p className="mb-0"><b>Program Studi: </b> Teknik Informatika</p>
                     </div>
                   </div>
-
-                  <div className="row">
-                    <div className="col-md-12">
-                      <h3 className="mt-3">Status</h3>
-                      <div className="row">
-                        {viewExercises}
-                      </div>
+                  <div className="row mt-3">
+                    <div className="col-md-6" >
+                      <canvas id="myRating" />
+                    </div>
+                    <div className="col-md-6">
+                      <h6>{this.state.user.rank[0].toUpperCase() + this.state.user.rank.slice(1)}</h6>
+                      <h3 className="mb-4">{this.state.user.handle}</h3>
+                      <p className="mb-0"><b>Problem(s) solved: </b> {this.state.solved}</p>
+                      <p className="mb-0"><b>Last submissions: </b> {(new Date(this.state.user.lastOnline)).toDateString()}</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-md-10 offset-md-1 mt-3">
-              <div className="card">
-                <div className="card-body">
-                  <div className="text-center">
-                    <div id="calendar_basic" />
+              <div className="row">
+                <div className="col-md-12">
+                  <h3 className="mt-3">Status</h3>
+                  <div className="row">
+                    {viewExercises}
                   </div>
-                  <table><tbody>
-                    <tr>
-                      <th>#</th>
-                      <th>Date</th>
-                      <th>Solved</th>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>20 Sept 2019</td>
-                      <td>1</td>
-                    </tr>
-                  </tbody>
-                  </table>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="col-md-10 offset-md-1 mt-3">
+          <div className="card">
+            <div className="card-body">
+              <div className="text-center">
+                <div id="calendar_basic" />
+              </div>
+              <table><tbody>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Solved</th>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>20 Sept 2019</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 }

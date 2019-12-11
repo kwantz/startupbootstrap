@@ -9,21 +9,23 @@ import {
 } from "react-router-dom";
 import Page404 from './Page404/Page404'
 import Members from './Members/Members';
+import Member from './Members/Member';
 
 export default function App() {
   return (
     <Router>
       <div id="wrapper">
-        <Sidebar/>
+        <Sidebar />
         <div id="content-wrapper" class="d-flex flex-column">
           <div id="content">
             <Switch>
-              <Route path="/" exact component={Dashboard}/>
-              <Route path="/mpc/members" component={Members}/>
-              <Route component={Page404}/>
+              <Route path="/" exact component={Dashboard} />
+              <Route path="/mpc/member" component={Member} />
+              <Route path="/mpc/members" component={Members} />
+              <Route component={Page404} />
             </Switch>
           </div>
-          <Footer/>
+          <Footer />
         </div>
       </div>
     </Router>

@@ -1,354 +1,152 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom';
 
 export default class Members extends React.Component {
   state = {
-    rating: [],
-    titles: [],
-    exercises: [],
-    solved: 0,
-    problemsId: {
-      id: {
-        solved: false,
-        exerciseId: 0
+    members: [
+      {
+        nim: '16.111.0099',
+        name: 'Andy Yu',
+        ps: 'ti',
+        cf: 'RavenYu',
+        uva: '816882'
+      }, {
+        nim: '16.111.2057',
+        name: 'Fariz Hazmi',
+        ps: 'ti',
+        cf: 'farizhazmi10',
+        uva: '887170'
+      }, {
+        nim: '16.111.4066',
+        name: 'Ryan Owen Thionanda',
+        ps: 'ti',
+        cf: 'Owenizedd',
+        uva: '883622'
+      }, {
+        nim: '16.211.1286',
+        name: 'Steven Wijaya',
+        ps: 'si',
+        cf: 'luckys65',
+        uva: '963327'
+      }, {
+        nim: '17.111.0151',
+        name: 'James Koeswandi',
+        ps: 'ti',
+        cf: 'Jemir',
+        uva: '995861'
+      }, {
+        nim: '17.111.0495',
+        name: 'Felix',
+        ps: 'ti',
+        cf: 'xfelix9977',
+        uva: '996242'
+      }, {
+        nim: '17.111.0614',
+        name: 'Steven',
+        ps: 'ti',
+        cf: 'lHikaril',
+        uva: '963321'
+      }, {
+        nim: '17.111.0975',
+        name: 'William Ho',
+        ps: 'ti',
+        cf: 'william100',
+        uva: '995814'
+      }, {
+        nim: '18.111.0131',
+        name: 'Felix Liman',
+        ps: 'ti',
+        cf: 'FelixLim',
+        uva: '995830'
+      }, {
+        nim: '18.111.0522',
+        name: 'Angela Ho',
+        ps: 'ti',
+        cf: 'Angela_Ho',
+        uva: '995844'
+      }, {
+        nim: '18.111.0701',
+        name: 'Kevin Thiotanry',
+        ps: 'ti',
+        cf: 'yabel_aurelius',
+        uva: '1032903',
+      }, {
+        nim: '18.111.1048',
+        name: 'Ken Ken',
+        ps: 'ti',
+        cf: 'xigmaxe',
+        uva: '816661'
+      }, {
+        nim: '18.111.1439',
+        name: 'Andreas Lukita',
+        ps: 'ti',
+        cf: 'Dreuia',
+        uva: '893486'
+      }, {
+        nim: '18.111.1684',
+        name: 'Herlian',
+        ps: 'ti',
+        cf: 'herlianzhang',
+        uva: '995827'
+      }, {
+        nim: '18.111.2957',
+        name: 'Shelly Tansil',
+        ps: 'ti',
+        cf: 'Shellytan',
+        uva: '995838'
+      }, {
+        nim: '18.111.3561',
+        name: 'Ritchie Goldwin',
+        ps: 'ti',
+        cf: 'Metalblade',
+        uva: '995893'
+      }, {
+        nim: '18.111.4061',
+        name: 'James Ryans',
+        ps: 'ti',
+        cf: 'james_ryans',
+        uva: '995834'
+      }, {
+        nim: '18.111.4401',
+        name: 'Haryo Wijaya',
+        ps: 'ti',
+        cf: 'miracle_fortune',
+        uva: '788285'
+      }, {
+        nim: '18.211.1019',
+        name: 'Kevin',
+        ps: 'si',
+        cf: 'Theofratus',
+        uva: '978433'
       }
-    },
-    problemsNumber: {
-      number: {
-        solved: false,
-        exerciseId: 0
-      }
-    },
-    user: {
-      handle: '',
-      rank: ' ',
-      lastOnline: 0,
-      avatar: ''
-    }
-  }
-
-  async componentDidMount() {
-    await this.fetchCpBook3();
-    await this.fetchProblemDetail();
-
-    await this.getUserInfo('yabel_aurelius');
-
-    await this.fetchUserSubmissions(1032903);
-    await this.fetchCodeforcesRating('yabel_aurelius');
-
-    await this.setupSubmission();
-    await this.setupRatingChart();
-    // await this.setupProfileChart();
-  }
-
-  getUserInfo = async (uname) => {
-    let api = await fetch(`https://codeforces.com/api/user.info?handles=${uname}`)
-    let response = await api.json()
-    let user = response.result[0]
-    let state = {
-      user: {
-        handle: user.handle,
-        rank: user.rank,
-        lastOnline: user.lastOnlineTimeSeconds * 1000,
-        avatar: "https:" + user.titlePhoto
-      }
-    }
-    this.setState(state)
-  }
-
-  fetchCpBook3 = async () => {
-    let response = await fetch(`https://uhunt.onlinejudge.org/api/cpbook/3`);
-    let exercises = await response.json();
-    let state = {
-      titles: [],
-      exercises: [],
-      problemsNumber: {}
-    };
-
-    for (let [id, exercise] of exercises.entries()) {
-      state.titles.push(exercise.title);
-      state.exercises.push({
-        solved: 0,
-        total: 0
-      });
-
-      let subExercises = exercise.arr;
-      for (let subExercise of subExercises) {
-        let tags = subExercise.arr;
-        for (let tag of tags) {
-          for (let problem = 1; problem < tag.length; problem++) {
-            state.exercises[id].total += 1;
-            state.problemsNumber[Math.abs(parseInt(tag[problem], 10))] = {
-              solved: false,
-              exerciseId: id
-            };
-          }
-        }
-      }
-    }
-
-    this.setState(state);
-  }
-
-  fetchProblemDetail = async () => {
-    let response = await fetch(`https://uhunt.onlinejudge.org/api/p`);
-    let problems = await response.json();
-    let state = {
-      problemsId: this.state.problemsId,
-      problemsNumber: this.state.problemsNumber
-    };
-
-    for (let problem of problems) {
-      state.problemsId[parseInt(problem[0], 10)] = state.problemsNumber[parseInt(problem[1], 10)];
-    }
-
-    this.setState(state);
-  }
-
-  fetchUserSubmissions = async (userId) => {
-    let response = await fetch(`https://uhunt.onlinejudge.org/api/subs-user/${userId}`);
-    let submissions = await response.json();
-    let state = {
-      solved: this.state.solved,
-      exercises: this.state.exercises,
-      problemsId: this.state.problemsId
-    };
-
-    for (let submission of submissions.subs) {
-      if (parseInt(submission[2], 10) === 90) {
-        if (typeof state.problemsId[parseInt(submission[1], 10)] === 'undefined') {
-          state.solved += 1;
-        }
-        else if (state.problemsId[parseInt(submission[1], 10)].solved === false) {
-          let exerciseId = state.problemsId[parseInt(submission[1], 10)].exerciseId;
-          state.problemsId[parseInt(submission[1], 10)].solved = true;
-          state.exercises[exerciseId].solved += 1;
-        }
-      }
-    }
-
-    this.setState(state);
-  }
-
-  fetchCodeforcesRating = async (uname) => {
-    let response = await fetch(`https://codeforces.com/api/user.rating?handle=${uname}`);
-    let api = await response.json();
-    let state = {
-      rating: []
-    };
-
-    for (let rating of api.result) {
-      state.rating.push(rating.newRating);
-    }
-
-    this.setState(state);
-  }
-
-  setupSubmission = async () => {
-    window.google.charts.load("current", { packages: ["calendar"] });
-    window.google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-      let dataTable = new window.google.visualization.DataTable();
-      dataTable.addColumn({ type: 'date', id: 'Date' });
-      dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
-      dataTable.addRows([
-        [new Date(2012, 3, 13), 0],
-        [new Date(2012, 3, 14), 2],
-        [new Date(2012, 3, 17), 5],
-        [new Date(2012, 3, 15), 3],
-        [new Date(2012, 3, 16), 4]
-      ]);
-
-      let chart = new window.google.visualization.Calendar(document.getElementById('calendar_basic'));
-      chart.draw(dataTable);
-    }
-  }
-
-  setupRatingChart = async () => {
-    /*eslint no-new: "off"*/
-    new window.Chart(document.getElementById('myRating').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: this.state.rating,
-        datasets: [{
-          data: [...this.state.rating, this.state.rating[this.state.rating.length - 1] - 25],
-          lineTension: 0,
-          backgroundColor: 'rgba(255, 0, 0, 0.5)'
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            display: false //this will remove all the x-axis grid lines
-          }]
-        }
-      }
-    });
-  }
-
-  setupProfileChart = async () => {
-    let data = [];
-    let labels = [];
-    for (let [id, exercise] of this.state.titles.entries()) {
-      data.push(this.state.exercises[id].solved / this.state.exercises[id].total);
-      labels.push(exercise);
-    }
-
-    /*eslint no-new: "off"*/
-    new window.Chart(document.getElementById('myChart').getContext('2d'), {
-      type: 'radar',
-      data: {
-        labels,
-        datasets: [{
-          data,
-          label: '# of Votes',
-          backgroundColor: 'rgba(255, 0, 0, 0.5)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-        scale: {
-          ticks: {
-            display: false,
-            maxTicksLimit: 5
-          }
-        }
-      }
-    });
+    ]
   }
 
   render() {
-    const viewExercises = this.state.titles.map((exercise, id) => (
-      <Fragment>
-        <div className="col-md-3">
-          <b>{exercise}</b>
-        </div>
-        <div className="col-md-9">
-          <div className="progress">
-            <div className="progress-bar bg-info" style={{ width: (this.state.exercises[id].solved * 100 / this.state.exercises[id].total) + '%' }}>
-              {this.state.exercises[id].solved} / {this.state.exercises[id].total}
-            </div>
+    const members = this.state.members.map((member, id) => (
+      <div class="col-md-4 col-xl-3 py-3">
+        <div class="card">
+          <img class="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16ef4538b2b%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16ef4538b2b%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22105.5%22%20y%3D%2296.6%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap" />
+          <div class="card-body">
+            <h5 class="card-title">{member.name}</h5>
+            <p class="card-text">
+              <b>NIM:</b> <span>{member.nim}</span><br />
+              <b>Program Studi:</b> <br /><span>{member.ps === "ti" ? "Teknik Informatika" : "Sistem Informasi"}</span><br />
+            </p>
+            <Link to={`/mpc/member?nim=${member.nim}&name=${member.name}&ps=${member.ps}&uva=${member.uva}&cf=${member.cf}`} class="btn btn-primary font-weight-bold float-right">
+              <span>Go somewhere</span>
+            </Link>
           </div>
         </div>
-      </Fragment>
-    ));
+      </div>
+    ))
+
 
     return (
       <div className="row">
-        <div className="col-md-10 offset-md-1 mt-3">
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-3">
-                  <img src={this.state.user.avatar} style={{ maxWidth: '100%' }} />
-
-                </div>
-
-                <div className="col-md-9">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <p className="mb-0"><b>NIM: </b> 15.111.0001</p>
-                      <p className="mb-0"><b>Nama: </b> Anthony Ricardo Thiotanry</p>
-                      <p className="mb-0"><b>Program Studi: </b> Teknik Informatika</p>
-                    </div>
-                  </div>
-                  <div className="row mt-3">
-                    <div className="col-md-6" >
-                      <canvas id="myRating" />
-                    </div>
-                    <div className="col-md-6">
-                      <h6>{this.state.user.rank[0].toUpperCase() + this.state.user.rank.slice(1)}</h6>
-                      <h3 className="mb-4">{this.state.user.handle}</h3>
-                      <p className="mb-0"><b>Problem(s) solved: </b> {this.state.solved}</p>
-                      <p className="mb-0"><b>Last submissions: </b> {(new Date(this.state.user.lastOnline)).toDateString()}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-md-12">
-                  <h3 className="mt-3">Status</h3>
-                  <div className="row">
-                    {viewExercises}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-md-10 offset-md-1 mt-3">
-          <div className="card">
-            <div className="card-body">
-              <div className="text-center">
-                <div id="calendar_basic" />
-              </div>
-              <table><tbody>
-                <tr>
-                  <th>#</th>
-                  <th>Date</th>
-                  <th>Solved</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20 Sept 2019</td>
-                  <td>1</td>
-                </tr>
-              </tbody>
-              </table>
-            </div>
+        <div class="col-md-10 offset-md-1">
+          <div class="row">
+            {members}
           </div>
         </div>
       </div>

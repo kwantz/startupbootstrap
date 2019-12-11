@@ -12,40 +12,40 @@ export default function Sidebar() {
                 <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
             </a>
 
-            <hr class="sidebar-divider"/>
+            <hr class="sidebar-divider" />
 
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"/>
+                    <i class="fas fa-fw fa-tachometer-alt" />
                     <span>Dashboard</span>
                 </a>
             </li>
 
-            <hr class="sidebar-divider"/>
+            <hr class="sidebar-divider" />
 
             <div class="sidebar-heading">Mikroskil</div>
 
             <li class="nav-item">
                 <Link to="/mpc/event" class="nav-link">
-                    <i class="fas fa-fw fa-calendar-alt"/>
+                    <i class="fas fa-fw fa-calendar-alt" />
                     <span>Events</span>
                 </Link>
             </li>
 
             <li class="nav-item">
-                <Link to="/mpc/members" class="nav-link">
-                    <i class="fas fa-fw fa-user-friends"/>
+                <Link to="/mpc/members?nim=18.111.0701&name=Kevin%20Thiotanry&ps=ti&uva=1032903&cf=yabel_aurelius" class="nav-link">
+                    <i class="fas fa-fw fa-user-friends" />
                     <span>Members</span>
                 </Link>
             </li>
 
-            <hr class="sidebar-divider"/>
+            <hr class="sidebar-divider" />
 
             <div class="sidebar-heading">Interface</div>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo">
-                    <i class="fas fa-fw fa-cog"/>
+                    <i class="fas fa-fw fa-cog" />
                     <span>Components</span>
                 </a>
                 <div id="collapseTwo" class="collapse" data-parent="#accordionSidebar">
@@ -59,7 +59,7 @@ export default function Sidebar() {
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"/>
+                    <i class="fas fa-fw fa-wrench" />
                     <span>Utilities</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" data-parent="#accordionSidebar">
@@ -73,14 +73,14 @@ export default function Sidebar() {
                 </div>
             </li>
 
-            <hr class="sidebar-divider"/>
+            <hr class="sidebar-divider" />
 
             <div class="sidebar-heading">Addons</div>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages">
-                <i class="fas fa-fw fa-folder"/>
-                <span>Pages</span>
+                    <i class="fas fa-fw fa-folder" />
+                    <span>Pages</span>
                 </a>
                 <div id="collapsePages" class="collapse" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -98,19 +98,19 @@ export default function Sidebar() {
 
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"/>
+                    <i class="fas fa-fw fa-chart-area" />
                     <span>Charts</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"/>
+                    <i class="fas fa-fw fa-table" />
                     <span>Tables</span>
                 </a>
             </li>
 
-            <hr class="sidebar-divider d-none d-md-block"/>
+            <hr class="sidebar-divider d-none d-md-block" />
 
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

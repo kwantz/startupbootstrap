@@ -1,4 +1,4 @@
-/* @media print { */
+@media print {
   body * {
     visibility: hidden;
   }
@@ -10,4 +10,4 @@
     left: 0;
     top: 0;
   }
-/* } */
+}

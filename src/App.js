@@ -17,7 +17,7 @@ export default function App() {
       <div id="wrapper">
         <Sidebar />
         <div id="content-wrapper" class="d-flex flex-column">
-          <div id="content">
+          <div id="content" class="container">
             <Switch>
               <Route path="/" exact component={Dashboard} />
               <Route path="/mpc/member" component={Member} />

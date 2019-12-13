@@ -60,6 +60,19 @@ export default class CodeforcesAPI {
       this.data.submissions.timespans.push(timespans)
       this.data.submissions.solved.push(solved[timespans])
     }
+
+    let problemRatingSolved = {}
+    for (let submission of submissions) {
+      if (typeof submission.problem.rating !== "undefined") {
+        problemRatingSolved[submission.problem.rating] = (typeof problemRatingSolved[submission.problem.rating] !== "undefined")
+          ? problemRatingSolved[submission.problem.rating] + 1
+          : 1
+      }
+    }
+
+    this.data.problemRatingSolved = []
+    for (let rating in problemRatingSolved)
+      this.data.problemRatingSolved.push([rating, problemRatingSolved[rating]])
   }
 
   async getData() {
